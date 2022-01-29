@@ -1,0 +1,18 @@
+{% extends 'base.html' %} 
+{% block title %}Question {{question_num}}{% endblock %}
+
+{% block content %} 
+
+
+  <h1>{{question.question}}</h1>
+
+
+  <!-- Render form with choices from instance of Question.  -->
+<form action="/answer" method ="POST">
+{% for choice in question.choices %}
+ <p><input type="radio" name = answer value = "{{choice}}"> {{choice}}</p>
+{% endfor %}
+<button>Submit Answer</button>
+</form>
+
+{% endblock %}

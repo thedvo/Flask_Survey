@@ -1,0 +1,17 @@
+{% extends 'base.html' %} 
+
+{% block title %} Start Survey {% endblock %}
+
+{% block content %} 
+<h1>{{title}}</h1>
+
+<p>{{instructions}}</p>
+
+<!-- Begins the survey and will redirect to Question 1 -->
+<form action="/start" method="POST">
+<button>Submit</button>
+</form>
+{% endblock %}
+
+
+
