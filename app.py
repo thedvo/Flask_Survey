@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, redirect, flash
+from flask import Flask, request, render_template, redirect, flash, session
 from flask_debugtoolbar import DebugToolbarExtension
 from surveys import satisfaction_survey as survey
 
@@ -8,8 +8,6 @@ app.config['SECRET_KEY'] = 'secret'
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 
 debug = DebugToolbarExtension(app)
-
-responses = []
 
 
 @app.route('/')
@@ -23,16 +21,17 @@ def show_start():
 
 @app.route('/start', methods=['POST'])
 def start_survey():
-    """Starts survey and redirects to first question"""
+    """Empty responses list. Starts survey and redirects to first question."""
+    session['responses'] = []
     return redirect('/questions/0')
 
 
 @app.route('/questions/<int:id>')
 def show_question(id):
     """Renders questions based on their ID"""
-
+    responses = session.get('responses')
     # redirects to home page if response list is empty, meaning survey has not started
-    if (len(responses) == []):
+    if (responses is None):
         return redirect('/')
 
     # if the length of the response list is equal to the length of the questions list, survey is complete.
@@ -57,7 +56,11 @@ def handle_questions():
     """Collects user responses to questions"""
 
     choice = request.form['answer']
+
+    responses = session['responses']
     responses.append(choice)
+    session['responses'] = responses
+
 
     """Checking length of responses list to determine next route"""
     if (len(responses) == len(survey.questions)):
