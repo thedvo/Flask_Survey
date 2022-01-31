@@ -4,4 +4,14 @@
 {% block content%}
 <h1>Thank you for completing the survey!</h1>
 
+<p>Here's a recap of your survey responses:</p>
+<ul>
+    {% for question in survey.questions %}
+         <li>
+             <b>{{question.question}}</b> 
+             <i>{{responses[loop.index0]}}</i>
+            </li>
+    {% endfor %}
+</ul>
+
 {% endblock %}

@@ -71,5 +71,7 @@ def handle_questions():
 
 @app.route('/done')
 def show_thanks():
+    responses = session['responses']
+    question = survey.questions
     """Shows thank you message to user once survey is complete"""
-    return render_template('completed.html')
+    return render_template('completed.html', survey=survey, responses = responses)
